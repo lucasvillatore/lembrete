@@ -127,11 +127,16 @@ ln -sf "$PWD/lembrete" ~/.local/bin/lembrete
 
 ### Publicar uma versão nova
 
-Crie uma tag; o GitHub Actions compila para Linux e macOS (amd64 e arm64) com o [GoReleaser](https://goreleaser.com) e publica no Releases:
+Na `main` atualizada, rode o script. Ele confere se a árvore está limpa e se compila, mostra os commits desde a última versão, pede confirmação, cria a tag e acompanha o build. O GitHub Actions compila para Linux e macOS (amd64 e arm64) com o [GoReleaser](https://goreleaser.com) e publica no Releases.
 
 ```bash
-git tag v0.2.0 && git push origin v0.2.0
+./scripts/release.sh            # patch: v0.1.0 -> v0.1.1
+./scripts/release.sh minor      # v0.1.0 -> v0.2.0
+./scripts/release.sh major      # v0.1.0 -> v1.0.0
+./scripts/release.sh v0.3.0     # versão exata
 ```
+
+Mudanças na `main` entram por pull request.
 
 ## Onde ficam os dados
 
