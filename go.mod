@@ -1,4 +1,4 @@
-module lembrete
+module github.com/lucasvillatore/lembrete
 
 go 1.26.3
 
