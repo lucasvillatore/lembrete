@@ -94,37 +94,44 @@ lembrete add --note $'linha 1\nlinha 2'          # nota com várias linhas
 
 ## Instalação
 
-Precisa do [Go](https://go.dev/dl/) 1.22 ou mais novo.
+Linux e macOS, sem precisar de Go:
 
 ```bash
-git clone git@github.com:lucasvillatore/lembrete.git
-cd lembrete
-go build -o lembrete .
-
-# deixa o comando disponível no PATH
-mkdir -p ~/.local/bin
-ln -sf "$PWD/lembrete" ~/.local/bin/lembrete
+curl -fsSL https://raw.githubusercontent.com/lucasvillatore/lembrete/main/install.sh | sh
 ```
 
-Confira se `~/.local/bin` está no seu `PATH` (`echo $PATH`). Se não estiver, adicione `export PATH="$HOME/.local/bin:$PATH"` no `~/.zshrc` ou `~/.bashrc`.
-
-### Mostrar os lembretes ao abrir o terminal
-
-Adicione no final do `~/.zshrc` (ou `~/.bashrc`):
+O script baixa o binário do último [release](https://github.com/lucasvillatore/lembrete/releases) para o seu sistema, instala em `~/.local/bin` e adiciona no `~/.zshrc` ou `~/.bashrc` a linha que mostra os lembretes ao abrir o terminal:
 
 ```bash
 command -v lembrete >/dev/null && lembrete check
 ```
 
-Pronto: todo terminal novo mostra os lembretes vencidos. Se não houver nenhum, não aparece nada.
+Para instalar em outra pasta: `curl -fsSL .../install.sh | LEMBRETE_DIR=/outra/pasta sh`. Para atualizar, rode o mesmo comando de novo.
 
-### Atualizar
+Se `~/.local/bin` não estiver no seu `PATH`, o script avisa. Adicione `export PATH="$HOME/.local/bin:$PATH"` no `~/.zshrc` ou `~/.bashrc`.
+
+### Com Go
 
 ```bash
-cd lembrete && git pull && go build -o lembrete .
+go install github.com/lucasvillatore/lembrete@latest
 ```
 
-O link no PATH aponta para o binário, então a versão nova vale na hora.
+### Compilar do código
+
+```bash
+git clone https://github.com/lucasvillatore/lembrete.git
+cd lembrete
+go build -o lembrete .
+ln -sf "$PWD/lembrete" ~/.local/bin/lembrete
+```
+
+### Publicar uma versão nova
+
+Crie uma tag; o GitHub Actions compila para Linux e macOS (amd64 e arm64) com o [GoReleaser](https://goreleaser.com) e publica no Releases:
+
+```bash
+git tag v0.2.0 && git push origin v0.2.0
+```
 
 ## Onde ficam os dados
 
